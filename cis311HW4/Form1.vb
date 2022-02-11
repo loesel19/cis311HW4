@@ -10,6 +10,11 @@ Public Class Form1
 
     Sub Form1_Load(Sender As Object, e As EventArgs) Handles Me.Load
         'load dictionarys starting from bottom up
+        LoadRawIng()
+        LoadPreppedItemsAndDishes()
+    End Sub
+
+    Sub LoadRawIng()
         'load raw ingredients
         dicRawIng.Add("Beef Patty", 0)
         dicRawIng.Add("Bun", 0)
@@ -27,7 +32,9 @@ Public Class Form1
         'display keys in all raw ingredient list box
         lstAllRaw.DataSource = New BindingSource(dicRawIng, Nothing)
         lstAllRaw.DisplayMember = "Key"
+    End Sub
 
+    Sub LoadPreppedItemsAndDishes()
         'now make some prepped items and add them to the dictionary of prepped items
         Dim dicHamburger = New SortedDictionary(Of String, Integer)
         dicHamburger.Add("Beef Patty", 0)
@@ -76,10 +83,28 @@ Public Class Form1
         'set listbox of all dishes to show the keys of dicDishes
         lstAllDishes.DataSource = New BindingSource(dicDishes, Nothing)
         lstAllDishes.DisplayMember = "Key"
-
-
-
     End Sub
+
+    Function validateInput(txtSender As TextBox) As Boolean
+        Dim blnValid As Boolean = True
+        'first check that the textbox contains only alphabetical characters and is not empty
+        'If a check is not met we set blnContinue to false
+        If txtSender.Text.Length = 0 Then
+            blnValid = False
+            'set focus on the sender
+            txtSender.Select()
+            MessageBox.Show("Text of new item can not be empty")
+        ElseIf Not Regex.IsMatch(txtSender.Text, "^[A-Za-z0-9']+$") Then
+            'clear textbox
+            txtSender.Text = ""
+            'set focus on the sender
+            txtSender.Select()
+            blnValid = False
+            MessageBox.Show("Text of new item can only contain letters, numbers and '")
+        End If
+
+        Return blnValid
+    End Function
 
     Sub Dish_Changed(sender As Object, e As EventArgs) Handles lstAllDishes.SelectedIndexChanged
         'we need to first display the prepped items in selected dish
@@ -161,24 +186,172 @@ Public Class Form1
         End If
     End Sub
 
-    Function validateInput(txtSender As TextBox) As Boolean
-        Dim blnValid As Boolean = True
-        'first check that the textbox contains only alphabetical characters and is not empty
-        'If a check is not met we set blnContinue to false
-        If txtSender.Text.Length = 0 Then
-            blnValid = False
-            'set focus on the sender
-            txtSender.Select()
-            MessageBox.Show("Text of new item can not be empty")
-        ElseIf Not Regex.IsMatch(txtSender.Text, "^[A-Za-z0-9']+$") Then
-            'clear textbox
-            txtSender.Text = ""
-            'set focus on the sender
-            txtSender.Select()
-            blnValid = False
-            MessageBox.Show("Text of new item can only contain letters, numbers and '")
+    Sub AddNewPreppedItem(sender As Object, e As EventArgs) Handles btnAddNewPrepped.Click
+        'check that item is not in dicPrepped already
+        If Not dicPreppedItems.ContainsKey(txtPrepped.Text) Then
+            'make sure input is valid
+            Dim blnValid As Boolean = validateInput(txtPrepped)
+            If blnValid Then
+                'create a diction to later populate with the text value of txtPrepped and dictionary of raw ingredients
+                Dim dicNewItemIngredients = New SortedDictionary(Of String, Integer)
+                Dim strIngrName = lstAllRaw.SelectedItem.Key.ToString
+                For Each entry As KeyValuePair(Of String, Integer) In dicRawIng
+                    If entry.Key.ToString.Equals(strIngrName) Then
+                        dicNewItemIngredients.Add(strIngrName, entry.Value)
+                    End If
+                Next
+                dicPreppedItems.Add(txtPrepped.Text, dicNewItemIngredients)
+                'update the listbox
+                lstAllPrepped.DataSource = New BindingSource(dicPreppedItems, Nothing)
+                lstAllPrepped.DisplayMember = "Key"
+            End If
+        Else
+            MessageBox.Show("Cannot add duplicate prepped item.")
+        End If
+    End Sub
+
+    Sub AddNewRawIngredient(sender As Object, e As EventArgs) Handles btnAddNewRaw.Click
+        'check that item is not in raw ingredient dictionary
+        If Not dicRawIng.ContainsKey(txtRaw.Text) Then
+            'check that input is valid
+            Dim blnValid = validateInput(txtRaw)
+            If blnValid Then
+                dicRawIng.Add(txtRaw.Text, 0)
+                'update the listbox
+                lstAllRaw.DataSource = New BindingSource(dicRawIng, Nothing)
+                lstAllRaw.DisplayMember = "Key"
+            End If
+        Else
+            MessageBox.Show("Cannot add duplicate raw ingredient.")
+        End If
+    End Sub
+
+    Sub AddPreppedToDish(sender As Object, e As EventArgs) Handles btnPreppedToSelected.Click
+        'get selected item from all prepped list and dish from dish list
+        Dim strItemToAdd = lstAllPrepped.SelectedItem.Key.ToString
+        Dim strDish = lstAllDishes.SelectedItem.Key.ToString
+        'get the dictionary of items in the dish by looping through the dish dictionary
+        For Each entry As KeyValuePair(Of String, SortedDictionary(Of String, SortedDictionary(Of String, Integer))) In dicDishes
+            If entry.Key.Equals(strDish) Then
+                'we are on the selected dish, lets see if it contains the prepped item
+                If entry.Value.ContainsKey(strItemToAdd) Then
+                    'Item already in dish, display message
+                    MessageBox.Show("That item is already in the selected dish.")
+                Else
+                    'the item is not in the dish, so we can go ahead and add it
+                    Dim dicRawInItem = New SortedDictionary(Of String, SortedDictionary(Of String, Integer))
+                    'we have to get the dictionary of all raw ingredients in the selected item
+                    dicRawInItem = entry.Value
+                    entry.Value.Add(strItemToAdd, dicRawIng)
+                    'We cannot do lstItemsInselected.Update since there is no data bound to it
+                    'we can change the selected index of dishes with code to update that listbox
+                    If lstAllDishes.SelectedIndex - 1 < 0 Then
+                        'we can not go lower so we can go higher
+                        lstAllDishes.SelectedIndex = lstAllDishes.SelectedIndex + 1
+                        lstAllDishes.SelectedIndex = lstAllDishes.SelectedIndex - 1
+                    Else
+                        'we do the same thing as in the if, just in the opposite order
+                        lstAllDishes.SelectedIndex = lstAllDishes.SelectedIndex - 1
+                        lstAllDishes.SelectedIndex = lstAllDishes.SelectedIndex + 1
+                    End If
+                End If
+            End If
+        Next
+
+    End Sub
+
+    Sub RemovePreppedItemFromDish(sender As Object, e As EventArgs) Handles btnRmvPreppedItem.Click
+        'much like the add procedure we have to get a handle on the container contained within the dish dictionary
+        'and then we can just use the remove function on that container to remove the prepped item
+        'check that something is selected in the itemsInDish listbox
+        If lstItemsInSelected.SelectedItem IsNot Nothing Then
+            'Now check that there will still be items in the dish after removal
+            If lstItemsInSelected.Items.Count - 1 > 0 Then
+                'Note when getting the string value from lstItemsInSelected .key is not needed, since when the values were
+                'added to that listbox they were added as just Strings(.key of string type)
+                If dicDishes.Item(lstAllDishes.SelectedItem.Key.ToString).ContainsKey(lstItemsInSelected.SelectedItem.ToString) Then
+                    'it is contained in the dictionary, so we can remove it
+                    dicDishes.Item(lstAllDishes.SelectedItem.Key.ToString).Remove(lstItemsInSelected.SelectedItem.ToString)
+                    'now we need to updated the selected item in the listbox with the items contained in the dish
+                    If lstAllDishes.SelectedIndex - 1 < 0 Then
+                        'we cannot go down an index so we can go up
+                        lstAllDishes.SelectedIndex = lstAllDishes.SelectedIndex + 1
+                        lstAllDishes.SelectedIndex = lstAllDishes.SelectedIndex - 1
+                    Else
+                        'we just have to do the same as the if block, in reverse order
+                        lstAllDishes.SelectedIndex = lstAllDishes.SelectedIndex - 1
+                        lstAllDishes.SelectedIndex = lstAllDishes.SelectedIndex + 1
+                    End If
+                End If
+            Else
+                MessageBox.Show("Can not remove selected item from dish since there will be no items left.")
+            End If
+        Else
+                'no item was selected on lstItemsInSelected
+                MessageBox.Show("Please select the item you wish to remove from this dish")
         End If
 
-        Return blnValid
-    End Function
+    End Sub
+
+    Sub AddRawToItem(sender As Object, e As EventArgs) Handles btnRawtoPrepped.Click
+        'first we have to get the prepped item as a string from lstAllPrepped and the raw ingr. from lstAllRaw
+        'note we say selectedItem.Key.ToString, since the listbox is only showing the keys, but is bound to the dictionaries
+        Dim strRaw = lstAllRaw.SelectedItem.Key.ToString
+        Dim strItem = lstAllPrepped.SelectedItem.Key.ToString
+        'now that we have the proper 'keys' we can use the same top down approach as AddPreppedToDish to get the proper
+        'handles on the data containers and edit the referenced data as needed
+        'we will do this by starting with dicPreppedItems and looping through the dictionary until we reach
+        'the key that equals strRaw
+        For Each entry As KeyValuePair(Of String, SortedDictionary(Of String, Integer)) In dicPreppedItems
+            If entry.Key.Equals(strItem) Then
+                'check if raw is in the contained dictionary of Raw ingredients under the current key
+                If entry.Value.ContainsKey(strRaw) Then
+                    MessageBox.Show("Selected raw item already in selected prepped item")
+                Else
+                    'we need to add the raw ingredient to the prepped item
+                    entry.Value.Add(strRaw, 0)
+                    'again since lstRawInSelected is not bound to any data we have to instead change the selected item
+                    'of the listbox that controls the data container that loads the data into this listbox, which is lstAllPrepped
+                    'again we will just change the selected item index
+                    If lstAllPrepped.SelectedIndex - 1 < 0 Then
+                        lstAllPrepped.SelectedIndex = lstAllPrepped.SelectedIndex + 1
+                        lstAllPrepped.SelectedIndex = lstAllPrepped.SelectedIndex - 1
+                    Else
+                        'do the same as the above if, but reverse the order
+                        lstAllPrepped.SelectedIndex = lstAllPrepped.SelectedIndex - 1
+                        lstAllPrepped.SelectedIndex = lstAllPrepped.SelectedIndex + 1
+                    End If
+                End If
+            End If
+        Next
+    End Sub
+
+    Sub RemoveRawFromItem(sender As Object, e As EventArgs) Handles btnRmvRaw.Click
+        'First make sure an item is selected
+        If lstRawInSelected.SelectedItem IsNot Nothing Then
+            'make sure that there will still be an item in lstRawInSelected
+            If lstRawInSelected.Items.Count - 1 > 0 Then
+                'we can remove it, double check it is in the dictionary of all prepped items
+                If dicPreppedItems.Item(lstAllPrepped.SelectedItem.Key.ToString).ContainsKey(lstRawInSelected.SelectedItem.ToString) Then
+                    dicPreppedItems.Item(lstAllPrepped.SelectedItem.Key.ToString).Remove(lstRawInSelected.SelectedItem.ToString)
+                    'now we just have to use the same method of switching the selectedIndex to update the listBox
+                    If lstAllPrepped.SelectedIndex - 1 < 0 Then
+                        'we have to add first
+                        lstAllPrepped.SelectedIndex = lstAllPrepped.SelectedIndex + 1
+                        lstAllPrepped.SelectedIndex = lstAllPrepped.SelectedIndex - 1
+                    Else
+                        'we subtract first
+                        lstAllPrepped.SelectedIndex = lstAllPrepped.SelectedIndex - 1
+                        lstAllPrepped.SelectedIndex = lstAllPrepped.SelectedIndex + 1
+                    End If
+                End If
+            Else
+                    'tell the user that they cannot remove this ingredient
+                    MessageBox.Show("Can not remove ingredient since it is the only ingredient in the item.")
+            End If
+        Else
+            'user has to select item to remove
+            MessageBox.Show("Please select the raw ingredient you would like to remove from the selected prepped item.")
+        End If
+    End Sub
 End Class
