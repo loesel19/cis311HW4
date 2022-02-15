@@ -9,15 +9,39 @@ Public Class Form1
     '------------------------------------------------------------------------
     '- File Purpose:                                                        -
     '-                                                                      -
-    '- -
+    '- The purpose of this file is to act as the main form for the dish mana-
+    '- gement system. UI and collection manipulation is handled in this file-
     '-                                                                      -
     '------------------------------------------------------------------------
     '- Program Purpose:                                                     -
     '-                                                                      -
-    '-  -
+    '- The purpose of this program is to create an interactive dish manageme-
+    '- nt system for a chef/ restaraunt. It consists of manipulating 3 diffe-
+    '- rent dictionarys. One for dishes, which has dish names as the key and-
+    '- a dictionary of prepped items as a value. One for prepped items which-
+    '- has a string name as a key and a dictionary of raw ingredients as a  -
+    '- value. Lastly, one for raw ingredients which has A string name key,  -
+    '- and string name value. These 3 global dictionarys are data sources   -
+    '- for 3 listboxes to show their contents. The listboxes can have items -
+    '- items selected by the user, and other list boxes will show the items/-
+    '- ingredients in the selected dishes/items. The listboxes for displayin-
+    '- g items/ingredients in selected dishes/items can also have items/ingr-
+    '- edients added to and removed from them(multiple at same time). New   -
+    '- dishes, items, and ingredients can be added by the user, but the name-
+    '- of the new entries is limited to alphanumeric characters, space and '-
     '------------------------------------------------------------------------
     '- Global Variable Dictionary (alphabetically):                         -
-    '-         -
+    '- dicDishes - A sorted dictionary containing all dishes whose entries  -
+    '              consist of String name, value sortedDictionary of ingredi-
+    '              ents. To be bound withlstAllDishes.                      -
+    '- dicPreppedItems - A sorted dictionary containing all Prepped Items   -
+    '                    whose entries consist of String name, sorted dictio-
+    '                    nary of raw ingredients. To be bound to            -
+    '                    lstAllPrepped.                                     -
+    '- dicAllRaw - A sorted dictionary containing all raw ingredients as ent-
+    '-             ries of String name, String name. To be bound to         -
+    '-             lstAllRaw.                                               -
+    '------------------------------------------------------------------------
 
     'GLOBAL VARIABLES GLOBAL VARIABLES GLOBAL VARIABLES GLOBAL VARIABLES GLOBAL VARIABLES GLOBAL VARIABLES 
     'GLOBAL VARIABLES GLOBAL VARIABLES GLOBAL VARIABLES GLOBAL VARIABLES GLOBAL VARIABLES GLOBAL VARIABLES 
