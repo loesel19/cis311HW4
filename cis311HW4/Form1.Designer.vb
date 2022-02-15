@@ -104,6 +104,7 @@ Partial Class Form1
         Me.lstItemsInSelected.ItemHeight = 15
         Me.lstItemsInSelected.Location = New System.Drawing.Point(12, 169)
         Me.lstItemsInSelected.Name = "lstItemsInSelected"
+        Me.lstItemsInSelected.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple
         Me.lstItemsInSelected.Size = New System.Drawing.Size(270, 94)
         Me.lstItemsInSelected.TabIndex = 6
         '
@@ -113,6 +114,7 @@ Partial Class Form1
         Me.lstRawInSelected.ItemHeight = 15
         Me.lstRawInSelected.Location = New System.Drawing.Point(12, 352)
         Me.lstRawInSelected.Name = "lstRawInSelected"
+        Me.lstRawInSelected.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple
         Me.lstRawInSelected.Size = New System.Drawing.Size(270, 94)
         Me.lstRawInSelected.TabIndex = 7
         '
@@ -122,6 +124,7 @@ Partial Class Form1
         Me.lstAllPrepped.ItemHeight = 15
         Me.lstAllPrepped.Location = New System.Drawing.Point(429, 169)
         Me.lstAllPrepped.Name = "lstAllPrepped"
+        Me.lstAllPrepped.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple
         Me.lstAllPrepped.Size = New System.Drawing.Size(270, 94)
         Me.lstAllPrepped.TabIndex = 8
         '
@@ -131,6 +134,7 @@ Partial Class Form1
         Me.lstAllRaw.ItemHeight = 15
         Me.lstAllRaw.Location = New System.Drawing.Point(429, 352)
         Me.lstAllRaw.Name = "lstAllRaw"
+        Me.lstAllRaw.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple
         Me.lstAllRaw.Size = New System.Drawing.Size(270, 94)
         Me.lstAllRaw.TabIndex = 9
         '
