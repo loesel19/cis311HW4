@@ -45,9 +45,9 @@ Public Class Form1
 
     'GLOBAL VARIABLES GLOBAL VARIABLES GLOBAL VARIABLES GLOBAL VARIABLES GLOBAL VARIABLES GLOBAL VARIABLES 
     'GLOBAL VARIABLES GLOBAL VARIABLES GLOBAL VARIABLES GLOBAL VARIABLES GLOBAL VARIABLES GLOBAL VARIABLES 
-    Dim dicDishes = New SortedDictionary(Of String, SortedDictionary(Of String, SortedDictionary(Of String, Integer)))
-    Dim dicPreppedItems = New SortedDictionary(Of String, SortedDictionary(Of String, Integer))
-    Dim dicRawIng = New SortedDictionary(Of String, Integer)
+    Dim dicDishes = New SortedDictionary(Of String, SortedDictionary(Of String, SortedDictionary(Of String, String)))
+    Dim dicPreppedItems = New SortedDictionary(Of String, SortedDictionary(Of String, String))
+    Dim dicRawIng = New SortedDictionary(Of String, String)
 
     'SUBPROGRAMS SUBPROGRAMS SUBPROGRAMS SUBPROGRAMS SUBPROGRAMS SUBPROGRAMS SUBPROGRAMS SUBPROGRAMS SUBPROGRAMS
     'SUBPROGRAMS SUBPROGRAMS SUBPROGRAMS SUBPROGRAMS SUBPROGRAMS SUBPROGRAMS SUBPROGRAMS SUBPROGRAMS SUBPROGRAMS
@@ -96,19 +96,19 @@ Public Class Form1
         '- None                                                                 -
         '------------------------------------------------------------------------
         'load raw ingredients
-        dicRawIng.Add("Beef Patty", 0)
-        dicRawIng.Add("Bun", 0)
-        dicRawIng.Add("Ketchup", 0)
-        dicRawIng.Add("Onion", 0)
-        dicRawIng.Add("Potato", 0)
-        dicRawIng.Add("Chicken", 0)
-        dicRawIng.Add("Mayonaise", 0)
-        dicRawIng.Add("Grape", 0)
-        dicRawIng.Add("Plate", 0)
-        dicRawIng.Add("Glass", 0)
-        dicRawIng.Add("Water", 0)
-        dicRawIng.Add("Basket", 0)
-        dicRawIng.Add("Soft Drink Syrup", 0)
+        dicRawIng.Add("Beef Patty", "Beef Patty")
+        dicRawIng.Add("Bun", "Bun")
+        dicRawIng.Add("Ketchup", "Ketchup")
+        dicRawIng.Add("Onion", "Onion")
+        dicRawIng.Add("Potato", "Potato")
+        dicRawIng.Add("Chicken", "Chicken")
+        dicRawIng.Add("Mayonaise", "Mayonaise")
+        dicRawIng.Add("Grape", "Grape")
+        dicRawIng.Add("Plate", "Plate")
+        dicRawIng.Add("Glass", "Glass")
+        dicRawIng.Add("Water", "Water")
+        dicRawIng.Add("Basket", "Basket")
+        dicRawIng.Add("Soft Drink Syrup", "Soft Drink Syrup")
         'display keys in all raw ingredient list box
         lstAllRaw.DataSource = New BindingSource(dicRawIng, Nothing)
         lstAllRaw.DisplayMember = "Key"
@@ -150,31 +150,31 @@ Public Class Form1
         '-                item soft drink.                                      -
         '------------------------------------------------------------------------
         'now make some prepped items and add them to the dictionary of prepped items
-        Dim dicHamburger = New SortedDictionary(Of String, Integer)
-        dicHamburger.Add("Beef Patty", 0)
-        dicHamburger.Add("Bun", 0)
-        dicHamburger.Add("Ketchup", 0)
-        dicHamburger.Add("Onion", 0)
-        dicHamburger.Add("Plate", 0)
+        Dim dicHamburger = New SortedDictionary(Of String, String)
+        dicHamburger.Add("Beef Patty", "Beef Patty")
+        dicHamburger.Add("Bun", "Bun")
+        dicHamburger.Add("Ketchup", "Ketchup")
+        dicHamburger.Add("Onion", "Onion")
+        dicHamburger.Add("Plate", "Plate")
         'add the item to the dictionary of prepped items
         dicPreppedItems.Add("Hamburger", dicHamburger)
 
-        Dim dicFries = New SortedDictionary(Of String, Integer)
-        dicFries.Add("Potato", 0)
-        dicFries.Add("Basket", 0)
+        Dim dicFries = New SortedDictionary(Of String, String)
+        dicFries.Add("Potato", "Potato")
+        dicFries.Add("Basket", "Basket")
         dicPreppedItems.Add("Fries", dicFries)
 
-        Dim dicSoftDrink = New SortedDictionary(Of String, Integer)
-        dicSoftDrink.Add("Glass", 0)
-        dicSoftDrink.Add("Water", 0)
-        dicSoftDrink.Add("Soft Drink Syrup", 0)
+        Dim dicSoftDrink = New SortedDictionary(Of String, String)
+        dicSoftDrink.Add("Glass", "Glass")
+        dicSoftDrink.Add("Water", "Water")
+        dicSoftDrink.Add("Soft Drink Syrup", "Soft Drink Syrup")
         dicPreppedItems.Add("Soft Drink", dicSoftDrink)
 
-        Dim dicChickenSalad = New SortedDictionary(Of String, Integer)
-        dicChickenSalad.Add("Chicken", 0)
-        dicChickenSalad.Add("Mayonaise", 0)
-        dicChickenSalad.Add("Grape", 0)
-        dicChickenSalad.Add("Plate", 0)
+        Dim dicChickenSalad = New SortedDictionary(Of String, String)
+        dicChickenSalad.Add("Chicken", "Chicken")
+        dicChickenSalad.Add("Mayonaise", "Mayonaise")
+        dicChickenSalad.Add("Grape", "Grape")
+        dicChickenSalad.Add("Plate", "Plate")
         dicPreppedItems.Add("Chicken Salad", dicChickenSalad)
 
         'display the keys in the listbox of all prepped items
@@ -182,13 +182,13 @@ Public Class Form1
         lstAllPrepped.DisplayMember = "Key"
 
         'now we add the dishes
-        Dim dicHamburgerPlatter = New SortedDictionary(Of String, SortedDictionary(Of String, Integer))
+        Dim dicHamburgerPlatter = New SortedDictionary(Of String, SortedDictionary(Of String, String))
         dicHamburgerPlatter.Add("Hamburger", dicHamburger)
         dicHamburgerPlatter.Add("Soft Drink", dicSoftDrink)
         dicHamburgerPlatter.Add("Fries", dicFries)
         dicDishes.Add("Hamburger Platter", dicHamburgerPlatter)
 
-        Dim dicChickenSaladPlatter = New SortedDictionary(Of String, SortedDictionary(Of String, Integer))
+        Dim dicChickenSaladPlatter = New SortedDictionary(Of String, SortedDictionary(Of String, String))
         dicChickenSaladPlatter.Add("Chicken Salad", dicChickenSalad)
         dicChickenSaladPlatter.Add("Soft Drink", dicSoftDrink)
         dicChickenSaladPlatter.Add("Fries", dicFries)
@@ -273,8 +273,8 @@ Public Class Form1
         'we need to first display the prepped items in selected dish
         'we have to lookup the selected dish name in the dictionary of dishes
         Dim strDishName = lstAllDishes.SelectedItem.Key.ToString
-        Dim dicSelectedItem = New SortedDictionary(Of String, SortedDictionary(Of String, Integer))
-        For Each entry As KeyValuePair(Of String, SortedDictionary(Of String, SortedDictionary(Of String, Integer))) In dicDishes
+        Dim dicSelectedItem = New SortedDictionary(Of String, SortedDictionary(Of String, String))
+        For Each entry As KeyValuePair(Of String, SortedDictionary(Of String, SortedDictionary(Of String, String))) In dicDishes
             If entry.Key.ToString.Equals(strDishName) Then
                 dicSelectedItem = entry.Value
             End If
@@ -283,7 +283,7 @@ Public Class Form1
         If dicSelectedItem.Count > 0 Then
             'clear listbox first
             lstItemsInSelected.Items.Clear()
-            For Each entry As KeyValuePair(Of String, SortedDictionary(Of String, Integer)) In dicSelectedItem
+            For Each entry As KeyValuePair(Of String, SortedDictionary(Of String, String)) In dicSelectedItem
                 lstItemsInSelected.Items.Add(entry.Key)
             Next
         Else
@@ -322,13 +322,13 @@ Public Class Form1
         If Not lstAllPrepped.SelectedItems.Count = 0 Then
             'get selected item as string, now we say selectedItem.Key since since the listbox displays the key(String), but
             'the items attatched are still KeyValuePairs
-            Dim dicSelectedItem = New SortedDictionary(Of String, Integer)
+            Dim dicSelectedItem = New SortedDictionary(Of String, String)
             'saying lstAllPrepped.SelectedItem will give us the lowest chosen item on the list (item with the lowest index)
             Dim strItemName = lstAllPrepped.SelectedItem.Key.ToString
 
             'loop through all keyValPairs in dicPreppedItems to see which Key matches our the key of the selected
             'listbox item
-            For Each entry As KeyValuePair(Of String, SortedDictionary(Of String, Integer)) In dicPreppedItems
+            For Each entry As KeyValuePair(Of String, SortedDictionary(Of String, String)) In dicPreppedItems
                 If entry.Key.ToString.Equals(strItemName) Then
                     dicSelectedItem = entry.Value
                 End If
@@ -339,7 +339,7 @@ Public Class Form1
                 lstRawInSelected.Items.Clear()
                 'now we loop through the dictionary of the selected item and add the strings of the contained value
                 'keyValuePairs Keys and add each key to the listbox of raw ingredients in selected item
-                For Each entry As KeyValuePair(Of String, Integer) In dicSelectedItem
+                For Each entry As KeyValuePair(Of String, String) In dicSelectedItem
                     lstRawInSelected.Items.Add(entry.Key)
                 Next
             Else
@@ -390,7 +390,7 @@ Public Class Form1
                 'make sure input is valid
                 Dim blnValid As Boolean = validateInput(txtDish)
                 If blnValid Then
-                    Dim dicNewDishItems = New SortedDictionary(Of String, SortedDictionary(Of String, Integer))
+                    Dim dicNewDishItems = New SortedDictionary(Of String, SortedDictionary(Of String, String))
                     'loop through all selected items and add them
                     For i As Integer = 0 To lstAllPrepped.SelectedItems.Count - 1
                         'create a dictionary to hold the selected item of from the listbox of all prepped items (lstAllPrepped)
@@ -400,7 +400,7 @@ Public Class Form1
                         '(in this instance whatever would be SortedDictionary Of String, Integer).
 
                         Dim strItemName = lstAllPrepped.SelectedItems(i).Key.ToString
-                        For Each entry As KeyValuePair(Of String, SortedDictionary(Of String, Integer)) In dicPreppedItems
+                        For Each entry As KeyValuePair(Of String, SortedDictionary(Of String, String)) In dicPreppedItems
                             If entry.Key.ToString.Equals(strItemName) Then
                                 dicNewDishItems.Add(strItemName, entry.Value)
                             End If
@@ -460,11 +460,11 @@ Public Class Form1
                 'check that at least 1 raw ingredient is selected
                 If Not lstAllRaw.SelectedItems.Count = 0 Then
                     'create a dictionary to later populate with the text value of txtPrepped and dictionary of raw ingredients
-                    Dim dicNewItemIngredients = New SortedDictionary(Of String, Integer)
+                    Dim dicNewItemIngredients = New SortedDictionary(Of String, String)
                     'loop through all selected raw ingredients and add them to the new prepped item
                     For i As Integer = 0 To lstAllRaw.SelectedItems.Count - 1
                         Dim strIngrName = lstAllRaw.SelectedItems(i).Key.ToString
-                        For Each entry As KeyValuePair(Of String, Integer) In dicRawIng
+                        For Each entry As KeyValuePair(Of String, String) In dicRawIng
                             If entry.Key.ToString.Equals(strIngrName) Then
                                 dicNewItemIngredients.Add(strIngrName, entry.Value)
                             End If
@@ -510,7 +510,7 @@ Public Class Form1
             'check that input is valid
             Dim blnValid = validateInput(txtRaw)
             If blnValid Then
-                dicRawIng.Add(txtRaw.Text, 0)
+                dicRawIng.Add(txtRaw.Text, txtRaw.Text)
                 'update the listbox
                 lstAllRaw.DataSource = New BindingSource(dicRawIng, Nothing)
                 lstAllRaw.DisplayMember = "Key"
@@ -566,7 +566,7 @@ Public Class Form1
                 'get current item as string
                 Dim strItemToAdd As String = lstAllPrepped.SelectedItems(i).Key.ToString
                 'get the dictionary of items in the dish by looping through the dish dictionary
-                For Each entry As KeyValuePair(Of String, SortedDictionary(Of String, SortedDictionary(Of String, Integer))) In dicDishes
+                For Each entry As KeyValuePair(Of String, SortedDictionary(Of String, SortedDictionary(Of String, String))) In dicDishes
                     If entry.Key.Equals(strDish) Then
                         'we are on the selected dish, lets see if it contains the prepped item
                         If entry.Value.ContainsKey(strItemToAdd) Then
@@ -575,7 +575,7 @@ Public Class Form1
                             MessageBox.Show(strMsg)
                         Else
                             'the item is not in the dish, so we can go ahead and add it
-                            Dim dicPreppedInItem = New SortedDictionary(Of String, SortedDictionary(Of String, Integer))
+                            Dim dicPreppedInItem = New SortedDictionary(Of String, SortedDictionary(Of String, String))
                             'we have to get the dictionary of all raw ingredients in the selected item
                             dicPreppedInItem = entry.Value
                             entry.Value.Add(strItemToAdd, dicRawIng)
@@ -623,6 +623,7 @@ Public Class Form1
         'much like the add procedure we have to get a handle on the container contained within the dish dictionary
         'and then we can just use the remove function on that container to remove the prepped item
         'check that something is selected in the itemsInDish listbox
+
         If Not lstItemsInSelected.SelectedItems.Count = 0 Then
             'loop through all selected items
             For i As Integer = 0 To lstItemsInSelected.SelectedItems.Count - 1
@@ -702,7 +703,7 @@ Public Class Form1
                     'handles on the data containers and edit the referenced data as needed
                     'we will do this by starting with dicPreppedItems and looping through the dictionary until we reach
                     'the key that equals strRaw
-                    For Each entry As KeyValuePair(Of String, SortedDictionary(Of String, Integer)) In dicPreppedItems
+                    For Each entry As KeyValuePair(Of String, SortedDictionary(Of String, String)) In dicPreppedItems
                         If entry.Key.Equals(strItem) Then
                             'check if raw is in the contained dictionary of Raw ingredients under the current key
                             If entry.Value.ContainsKey(strRaw) Then
@@ -760,36 +761,45 @@ Public Class Form1
         '------------------------------------------------------------------------
         '- Local Variable Dictionary (alphabetically):                          -
         '- i - an integer used as an index in the for loop.                     -
+        '- intSelectedIndex - an integer representing the first selected index  -
+        '-                    in lstAllPrepped before ingredients have been     -
+        '-                    removed from the item.                            -
         '------------------------------------------------------------------------
         'First make sure an item is selected
+        Dim intSelectedIndex = lstAllPrepped.SelectedIndex
         If Not lstRawInSelected.SelectedItems.Count = 0 Then
-            'loop through all selected raw items
-            For i As Integer = 0 To lstRawInSelected.SelectedItems.Count - 1
-                'make sure that there will still be an ingredient in the item
-                If dicPreppedItems.Item(lstAllPrepped.SelectedItem.Key.ToString).Count - 1 > 0 Then
-                    'we can remove it, double check it is in the dictionary of all prepped items
-                    If dicPreppedItems.Item(lstAllPrepped.SelectedItem.Key.ToString).ContainsKey(lstRawInSelected.SelectedItems(i).ToString) Then
-                        dicPreppedItems.Item(lstAllPrepped.SelectedItem.Key.ToString).Remove(lstRawInSelected.SelectedItems(i).ToString)
+            If lstAllPrepped.SelectedItems.Count < 2 Then
+                'loop through all selected raw items
+                For i As Integer = 0 To lstRawInSelected.SelectedItems.Count - 1
+                    'make sure that there will still be an ingredient in the item
+                    If dicPreppedItems.Item(lstAllPrepped.SelectedItem.Key.ToString).Count - 1 > 0 Then
+                        'we can remove it, double check it is in the dictionary of all prepped items
+                        If dicPreppedItems.Item(lstAllPrepped.SelectedItem.Key.ToString).ContainsKey(lstRawInSelected.SelectedItems(i).ToString) Then
+                            dicPreppedItems.Item(lstAllPrepped.SelectedItem.Key.ToString).Remove(lstRawInSelected.SelectedItems(i).ToString)
 
+                        End If
+                    Else
+                        'tell the user that they cannot remove this ingredient
+                        MessageBox.Show("Can not remove ingredient since it is the only ingredient in the item.")
                     End If
+                Next
+                'now we just have to use the same method of switching the selectedIndex to update the listBox
+                If lstAllPrepped.SelectedIndex - 1 < 0 Then
+                    'we have to add first
+                    lstAllPrepped.SelectedIndex = lstAllPrepped.SelectedIndex + 1
+                    lstAllPrepped.SelectedIndex = lstAllPrepped.SelectedIndex - 1
                 Else
-                    'tell the user that they cannot remove this ingredient
-                    MessageBox.Show("Can not remove ingredient since it is the only ingredient in the item.")
+                    'we subtract first
+                    lstAllPrepped.SelectedIndex = lstAllPrepped.SelectedIndex - 1
+                    lstAllPrepped.SelectedIndex = lstAllPrepped.SelectedIndex + 1
                 End If
-            Next
-            'now we just have to use the same method of switching the selectedIndex to update the listBox
-            If lstAllPrepped.SelectedIndex - 1 < 0 Then
-                'we have to add first
-                lstAllPrepped.SelectedIndex = lstAllPrepped.SelectedIndex + 1
-                lstAllPrepped.SelectedIndex = lstAllPrepped.SelectedIndex - 1
+                lstAllPrepped.SelectedIndex = intSelectedIndex
             Else
-                'we subtract first
-                lstAllPrepped.SelectedIndex = lstAllPrepped.SelectedIndex - 1
-                lstAllPrepped.SelectedIndex = lstAllPrepped.SelectedIndex + 1
+                MessageBox.Show("Please select 1 item to remove raw ingredients from.")
             End If
         Else
-            'user has to select item to remove
-            MessageBox.Show("Please select the raw ingredient(s) you would like to remove from the selected prepped item.")
+                'user has to select item to remove
+                MessageBox.Show("Please select the raw ingredient(s) you would like to remove from the selected prepped item.")
         End If
     End Sub
 End Class
